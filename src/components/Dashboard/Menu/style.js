@@ -1,22 +1,29 @@
 import styled from 'styled-components';
 
 export const Wrapper = styled.div`
-  margin: 1.5em;
+  margin: 1.5em 0.6em;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   gap: 2em;
+  min-width: 500px;
+
+  @media (max-width: 700px) {
+    min-width: auto;
+  }
 `;
 
 export const MainContent = styled.div`
   display: flex;
   flex-direction: column;
   gap: 2em;
+  height: 100%;
 `;
 
 export const Logo = styled.div`
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 1.5em;
 
   img {
@@ -26,6 +33,15 @@ export const Logo = styled.div`
   h1 {
     font-size: 48px;
     font-weight: 600;
+    text-align: center;
+  }
+
+  @media (max-width: 700px) {
+    flex-direction: column;
+
+    h1 {
+      margin: 0 1em;
+    }
   }
 `;
 
@@ -61,6 +77,14 @@ export const SearchBar = styled.div`
     img {
       height: 2.5em;
       display: flex;
+    }
+  }
+
+  @media (max-width: 1214px) {
+    width: calc(95% - 20px);
+
+    input {
+      font-size: 18px;
     }
   }
 `;
@@ -149,6 +173,10 @@ export const Options = styled.div`
     width: 2em;
     height: 2em;
     bottom: 0;
+  }
+
+  @media (max-width: 1214px) {
+    justify-content: center;
   }
 `;
 

@@ -1,8 +1,8 @@
-import { Container, Card, DisplayMessage } from './style';
+import { Wrapper, Container, Card, DisplayMessage } from './style';
 
 export default function CurrentWeather() {
   return (
-    <>
+    <Wrapper>
       <Container>
         <Card>
           <p className="details">Mínima</p>
@@ -24,6 +24,6 @@ export default function CurrentWeather() {
       <DisplayMessage>
         <p>Não, você não deve levar um casaquinho!</p>
       </DisplayMessage>
-    </>
+    </Wrapper>
   );
 }

@@ -3,6 +3,10 @@ import styled from 'styled-components';
 export const Wrapper = styled.div`
   display: flex;
   height: 100dvh;
+
+  @media (max-width: 1214px) {
+    flex-direction: column;
+  }
 `;
 
 export const Content = styled.div`
@@ -12,7 +16,8 @@ export const Content = styled.div`
   justify-content: space-between;
   gap: 2em;
   background-color: #f1f1f1;
-  padding-left: 2.5em;
+  padding-left: 1.2em;
+  padding-right: 1.2em;
   padding-bottom: 1.6em;
 `;
 
@@ -20,6 +25,7 @@ export const MainContent = styled.div`
   display: flex;
   flex-direction: column;
   gap: 2em;
+  height: 100%;
 `;
 
 export const NavOptions = styled.div`
@@ -42,6 +48,16 @@ export const NavOptions = styled.div`
 
   .forecast {
     color: ${(props) => (props.$pathname === '/forecast' ? '#000000' : '#C8C8C8')};
+  }
+
+  @media (max-width: 700px) {
+    flex-direction: column;
+    gap: 1em;
+    margin-bottom: 0.5em;
+
+    button {
+      font-size: 28px;
+    }
   }
 `;
 
@@ -67,6 +83,24 @@ export const CityContainer = styled.div`
   }
   ::-webkit-scrollbar-thumb {
     background: #000;
+  }
+
+  @media (max-width: 700px) {
+    .name {
+      font-size: 52px;
+      text-align: center;
+      word-break: break-word;
+      white-space: inherit;
+      max-width: none;
+      overflow-x: hidden;
+      overflow-y: hidden;
+      margin-bottom: 0.3em;
+    }
+
+    .coordinates {
+      font-size: 18px;
+      text-align: center;
+    }
   }
 `;
 
