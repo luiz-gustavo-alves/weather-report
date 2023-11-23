@@ -1,3 +1,9 @@
+import { Container } from './style';
+
 export default function WeatherForecast() {
-  return <h1>WeatherForecast</h1>;
+  return (
+    <Container>
+      <p>Graph Placeholder</p>
+    </Container>
+  );
 }

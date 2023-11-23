@@ -1,11 +1,19 @@
-import styled from 'styled-components';
 import { useEffect } from 'react';
 import { useLocation, useNavigate, Outlet } from 'react-router-dom';
+import { Wrapper, Content, NavOptions, CityContainer, ApiMessage, MainContent } from './style';
 import { Menu } from '../../components/Dashboard';
 
 export default function DashBoard() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
+
+  function toggleWeatherForecastPage() {
+    if (pathname === '/current') {
+      navigate('/forecast');
+    } else {
+      navigate('/current');
+    }
+  }
 
   useEffect(() => {
     if (pathname === '/') {
@@ -14,26 +22,35 @@ export default function DashBoard() {
   }, [pathname]);
 
   return (
-    <>
-      <Wrapper>
-        <Menu />
-        <Content>
+    <Wrapper>
+      <Menu />
+      <Content>
+        <MainContent>
+          <NavOptions $pathname={pathname}>
+            <button className="current" onClick={toggleWeatherForecastPage} type="button">
+              Hoje
+            </button>
+            <button className="forecast" onClick={toggleWeatherForecastPage} type="button">
+              Próximos Dias
+            </button>
+          </NavOptions>
+          <CityContainer>
+            <h2 className="name">São Paulo</h2>
+            <h2 className="coordinates">Lat: 44.32 &nbsp;&nbsp;&nbsp; Long: 10.99</h2>
+          </CityContainer>
           <Outlet />
-        </Content>
-      </Wrapper>
-    </>
+        </MainContent>
+        <div>
+          <ApiMessage>
+            <p>
+              Dados fornecidos pela&nbsp;
+              <a className="apiName" href="https://openweathermap.org/">
+                Open Weather API
+              </a>
+            </p>
+          </ApiMessage>
+        </div>
+      </Content>
+    </Wrapper>
   );
 }
-
-const Wrapper = styled.div`
-  display: flex;
-`;
-
-const Content = styled.div`
-  width: 100%;
-  height: 100dvh;
-  display: flex;
-  flex-direction: column;
-  gap: 2em;
-  background-color: #f1f1f1;
-`;
