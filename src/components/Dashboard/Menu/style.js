@@ -1,7 +1,14 @@
 import styled from 'styled-components';
 
 export const Wrapper = styled.div`
-  margin: 1.5em 3em;
+  margin: 1.5em;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 2em;
+`;
+
+export const MainContent = styled.div`
   display: flex;
   flex-direction: column;
   gap: 2em;
