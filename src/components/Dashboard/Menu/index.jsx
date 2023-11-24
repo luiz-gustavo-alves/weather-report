@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react';
 import { coat, searchIcon } from '../../../assets/images';
 import { Wrapper, Logo, SearchBar, Weather, Temperature, DateContent, Options, Footer, MainContent } from './style';
 import { weatherApiService } from '../../../services/OpenWeather/weatherApi';
-import { formatFloatPrecision } from '../../../utils/format';
+import { formatFloatPrecision } from '../../../utils/format-utils';
+import { getWeatherConditions, getWeatherIcons } from '../../../utils/constants-utils';
 
 import dayjs from 'dayjs';
 import localeData from 'dayjs/plugin/localeData';
@@ -12,36 +13,31 @@ dayjs.extend(localeData);
 dayjs.locale('pt-br');
 
 export default function Menu({ weatherData, setWeatherData }) {
-  const [currentTime, setCurrentTime] = useState(dayjs().format('HH:mm'));
   const localeData = dayjs().localeData();
   const currentDay = dayjs().format('DD/MM/YYYY');
   const currentWeekday = localeData.weekdays(dayjs());
+  const weatherConditions = getWeatherConditions();
+  const weatherIcons = getWeatherIcons();
 
+  const [currentTime, setCurrentTime] = useState(dayjs().format('HH:mm'));
+  const [currentUnit, setCurrentUnit] = useState('celsius');
   const [searchForm, setSearchForm] = useState({ city: '' });
   const [disableForm, setDisableForm] = useState(false);
-  const [unit, setUnit] = useState('celsius');
-
-  function toggleUnit() {
-    unit === 'celsius' ? setUnit('fahrenheit') : setUnit('celsius');
-  }
 
   function handleSearchForm(e) {
     setSearchForm({ ...searchForm, [e.target.name]: e.target.value });
   }
 
-  async function handleSearchSubmit(e) {
-    e.preventDefault();
+  async function getWeatherData(unit = currentUnit) {
     setDisableForm(true);
-
     try {
       const { city } = searchForm;
       const response = await weatherApiService.getCurrentWeatherByCity(city, unit);
       const { data } = response;
-
       const weatherData = {
         name: data.name,
-        condition: data.weather.main,
-        icon: data.weather.icon,
+        condition: data.weather[0].main,
+        icon: data.weather[0].icon,
         coord: {
           lat: formatFloatPrecision(data.coord.lat, 2),
           lon: formatFloatPrecision(data.coord.lon, 2),
@@ -55,14 +51,27 @@ export default function Menu({ weatherData, setWeatherData }) {
           humidity: data.main.humidity,
           windSpeed: formatFloatPrecision(data.wind.speed),
         },
+        unitType: unit === 'celsius' ? '°C' : '°F',
       };
-
       setWeatherData(weatherData);
     } catch (error) {
       // TO-DO: friendly error messages
       console.log(error);
     } finally {
       setDisableForm(false);
+    }
+  }
+
+  async function handleSearchSubmit(e) {
+    e.preventDefault();
+    await getWeatherData();
+  }
+
+  async function toggleUnit() {
+    const newUnit = currentUnit === 'celsius' ? 'fahrenheit' : 'celsius';
+    setCurrentUnit(newUnit);
+    if (weatherData !== null && !disableForm) {
+      await getWeatherData(newUnit);
     }
   }
 
@@ -88,10 +97,13 @@ export default function Menu({ weatherData, setWeatherData }) {
         {hasWeatherData && (
           <Weather>
             <Temperature>
-              <h2>{weatherData.temp.main} °C</h2>
+              <h2>
+                {weatherData.temp.main} {weatherData.unitType}
+              </h2>
             </Temperature>
             <div className="details">
-              <h2>Céu aberto</h2>
+              <img src={weatherIcons[weatherData.icon]} />
+              <h2>{weatherConditions[weatherData.condition].description}</h2>
             </div>
           </Weather>
         )}
