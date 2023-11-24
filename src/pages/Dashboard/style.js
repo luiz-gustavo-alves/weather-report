@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 export const Wrapper = styled.div`
   display: flex;
+  justify-content: ${(props) => (props.$pathname === '/' ? 'center' : 'flex-start')};
   height: 100dvh;
 
   @media (max-width: 1214px) {
@@ -79,7 +80,7 @@ export const CityContainer = styled.div`
   ::-webkit-scrollbar {
     width: 5px;
     height: 8px;
-    background-color: #aaa; /* or add it to the track */
+    background-color: #aaa;
   }
   ::-webkit-scrollbar-thumb {
     background: #000;

@@ -16,6 +16,7 @@ export const Wrapper = styled.div`
 export const MainContent = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: space-evenly;
   gap: 2em;
   height: 100%;
 `;
@@ -45,7 +46,7 @@ export const Logo = styled.div`
   }
 `;
 
-export const SearchBar = styled.div`
+export const SearchBar = styled.form`
   display: flex;
   align-items: center;
   margin: 0 auto;
