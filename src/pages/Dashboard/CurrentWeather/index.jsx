@@ -6,7 +6,7 @@ export default function CurrentWeather() {
 
   function checkWeatherTemperatures() {
     const temperatures = [weatherData.temp.main, weatherData.temp.min, weatherData.temp.max];
-    const maxTemperature = weatherData.unitType === '°C' ? 17 : 62;
+    const maxTemperature = weatherData.unit === 'celsius' ? 17 : 62;
     for (let i = 0; i < temperatures.length; i++) {
       const temperature = temperatures[i];
       if (temperature < maxTemperature) {
