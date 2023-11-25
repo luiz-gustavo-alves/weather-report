@@ -21,6 +21,7 @@ export const Logo = styled.div`
 
     h1 {
       margin: 0 1em;
+      font-size: 34px;
     }
   }
 `;

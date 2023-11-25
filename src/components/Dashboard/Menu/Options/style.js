@@ -3,6 +3,7 @@ import styled from 'styled-components';
 export const Container = styled.div`
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 1.5em;
   font-size: 22px;
   margin: 1em 4em;
@@ -60,5 +61,6 @@ export const Container = styled.div`
 
   @media (max-width: 1214px) {
     justify-content: center;
+    gap: 0.5em;
   }
 `;

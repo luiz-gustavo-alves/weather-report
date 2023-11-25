@@ -52,9 +52,7 @@ export const NavOptions = styled.div`
   }
 
   @media (max-width: 700px) {
-    flex-direction: column;
     gap: 1em;
-    margin-bottom: 0.5em;
 
     button {
       font-size: 28px;
@@ -89,18 +87,17 @@ export const CityContainer = styled.div`
   @media (max-width: 700px) {
     .name {
       font-size: 52px;
-      text-align: center;
       word-break: break-word;
       white-space: inherit;
       max-width: none;
       overflow-x: hidden;
       overflow-y: hidden;
       margin-bottom: 0.3em;
+      line-height: normal;
     }
 
     .coordinates {
       font-size: 18px;
-      text-align: center;
     }
   }
 `;

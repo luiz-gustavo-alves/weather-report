@@ -17,12 +17,16 @@ export const MainContent = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
-  gap: 2em;
   height: 100%;
+
+  @media (max-width: 1214px) {
+    gap: 2em;
+  }
 `;
 
 export const Footer = styled.div`
   margin: 0 auto;
   margin-top: 0.6em;
   font-size: 20px;
+  text-align: center;
 `;

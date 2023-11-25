@@ -30,11 +30,10 @@ export const Card = styled.div`
   justify-content: center;
   padding: 25px;
   gap: 10px;
-  background-color: #4d4499;
+  background: linear-gradient(#4d4494, #4f43ae);
   border-radius: 25px;
   color: #ffffff;
   font-weight: 500;
-  min-width: 300px;
 
   .details {
     font-size: 18px;
