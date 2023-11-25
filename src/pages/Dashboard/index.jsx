@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocation, useNavigate, Outlet } from 'react-router-dom';
 import { Wrapper, Content, NavOptions, CityContainer, ApiMessage, MainContent } from './style';
 import { Menu } from '../../components/Dashboard';
@@ -11,6 +11,14 @@ export default function DashBoard() {
   function toggleWeatherForecastPage() {
     pathname === '/current' ? navigate('/forecast') : navigate('/current');
   }
+
+  useEffect(() => {
+    if (weatherData === null) {
+      navigate('/');
+    } else {
+      navigate('/current');
+    }
+  }, [weatherData]);
 
   const hasWeatherData = weatherData !== null;
 

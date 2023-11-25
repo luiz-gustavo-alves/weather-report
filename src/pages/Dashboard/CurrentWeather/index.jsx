@@ -1,27 +1,40 @@
-import { useEffect } from 'react';
-import { useNavigate, useOutletContext } from 'react-router-dom';
+import { useOutletContext } from 'react-router-dom';
 import { Wrapper, Container, Card, DisplayMessage } from './style';
 
 export default function CurrentWeather() {
-  const navigate = useNavigate();
   const [weatherData] = useOutletContext();
 
-  useEffect(() => {
-    if (weatherData === null) {
-      navigate('/');
+  function checkWeatherTemperatures() {
+    const temperatures = [weatherData.temp.main, weatherData.temp.min, weatherData.temp.max];
+    const maxTemperature = weatherData.unitType === '°C' ? 17 : 62;
+    for (let i = 0; i < temperatures.length; i++) {
+      const temperature = temperatures[i];
+      if (temperature < maxTemperature) {
+        return true;
+      }
     }
-  }, []);
+    return false;
+  }
+
+  const shouldWearCoat = checkWeatherTemperatures();
+  const displayMessage = shouldWearCoat
+    ? 'Sim! você deve levar um casaquinho!'
+    : 'Não, você não deve levar um casaquinho!';
 
   return (
     <Wrapper>
       <Container>
         <Card>
           <p className="details">Mínima</p>
-          <p className="content">{weatherData.temp.min}° C</p>
+          <p className="content">
+            {weatherData.temp.min} {weatherData.unitType}
+          </p>
         </Card>
         <Card>
           <p className="details">Máxima</p>
-          <p className="content">{weatherData.temp.max}° C</p>
+          <p className="content">
+            {weatherData.temp.max} {weatherData.unitType}
+          </p>
         </Card>
         <Card>
           <p className="details">Umidade</p>
@@ -33,7 +46,7 @@ export default function CurrentWeather() {
         </Card>
       </Container>
       <DisplayMessage>
-        <p>Não, você não deve levar um casaquinho!</p>
+        <p>{displayMessage}</p>
       </DisplayMessage>
     </Wrapper>
   );
