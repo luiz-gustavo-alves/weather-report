@@ -3,7 +3,7 @@ import { Logo, SearchBar } from './style';
 import { coat, searchIcon } from '../../../../assets/images';
 import { weatherApiService } from '../../../../services/OpenWeather/weatherApi';
 
-export default function Searchbar({ searchForm, setSearchForm, setWeatherData, unit }) {
+export default function Searchbar({ searchForm, setSearchForm, setWeatherData, unit, setForecastData }) {
   const [disableForm, setDisableForm] = useState(false);
 
   function handleSearchForm(e) {
@@ -17,6 +17,10 @@ export default function Searchbar({ searchForm, setSearchForm, setWeatherData, u
       const { city } = searchForm;
       const weatherData = await weatherApiService.getCurrentWeatherByCity(city, unit);
       setWeatherData(weatherData);
+
+      const { coord } = weatherData;
+      const forecastData = await weatherApiService.getWeatherForecast(coord.lat, coord.lon, unit);
+      setForecastData(forecastData);
     } catch (error) {
       // TO-DO: friendly error messages
       console.log(error);

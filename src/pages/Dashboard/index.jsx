@@ -7,6 +7,7 @@ export default function DashBoard() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const [weatherData, setWeatherData] = useState(null);
+  const [forecastData, setForecastData] = useState(null);
 
   function toggleWeatherForecastPage() {
     pathname === '/current' ? navigate('/forecast') : navigate('/current');
@@ -15,16 +16,15 @@ export default function DashBoard() {
   useEffect(() => {
     if (weatherData === null) {
       navigate('/');
-    } else {
+    } else if (pathname === '/') {
       navigate('/current');
     }
   }, [weatherData]);
 
   const hasWeatherData = weatherData !== null;
-
   return (
     <Wrapper $pathname={pathname}>
-      <Menu weatherData={weatherData} setWeatherData={setWeatherData} />
+      <Menu weatherData={weatherData} setWeatherData={setWeatherData} setForecastData={setForecastData} />
       {hasWeatherData && (
         <Content>
           <MainContent>
@@ -42,7 +42,7 @@ export default function DashBoard() {
                 Lat: {weatherData.coord.lat} &nbsp;&nbsp;&nbsp; Long: {weatherData.coord.lon}
               </h2>
             </CityContainer>
-            <Outlet context={[weatherData]} />
+            <Outlet context={[weatherData, forecastData]} />
           </MainContent>
           <div>
             <ApiMessage>

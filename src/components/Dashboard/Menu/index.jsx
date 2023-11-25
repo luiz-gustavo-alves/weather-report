@@ -7,7 +7,7 @@ import WeatherStatus from './WeatherStatus';
 import Time from './Time';
 import Options from './Options';
 
-export default function Menu({ weatherData, setWeatherData }) {
+export default function Menu({ weatherData, setWeatherData, setForecastData }) {
   const [currentUnit, setCurrentUnit] = useState('celsius');
   const [searchForm, setSearchForm] = useState({ city: '' });
   const [disableFetch, setDisableFetch] = useState(false);
@@ -18,12 +18,16 @@ export default function Menu({ weatherData, setWeatherData }) {
       return;
     }
 
-    async function getCurrentWeatherData() {
+    async function updateData() {
       setDisableFetch(true);
       try {
         const { city } = searchForm;
         const currentWeatherData = await weatherApiService.getCurrentWeatherByCity(city, currentUnit);
         setWeatherData(currentWeatherData);
+
+        const { coord } = weatherData;
+        const currentForecastData = await weatherApiService.getWeatherForecast(coord.lat, coord.lon, currentUnit);
+        setForecastData(currentForecastData);
       } catch (error) {
         // TO-DO: friendly error messages
         console.log(error);
@@ -33,7 +37,7 @@ export default function Menu({ weatherData, setWeatherData }) {
     }
 
     if (!disableFetch) {
-      getCurrentWeatherData();
+      updateData();
     }
   }, [currentUnit]);
 
@@ -44,6 +48,7 @@ export default function Menu({ weatherData, setWeatherData }) {
           searchForm={searchForm}
           setSearchForm={setSearchForm}
           setWeatherData={setWeatherData}
+          setForecastData={setForecastData}
           unit={currentUnit}
         />
         {hasWeatherData && <WeatherStatus weatherData={weatherData} />}
