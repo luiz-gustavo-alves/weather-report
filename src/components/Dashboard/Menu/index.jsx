@@ -1,11 +1,18 @@
 import { useEffect, useState } from 'react';
 import { Wrapper, MainContent, Footer } from './style';
 import { weatherApiService } from '../../../services/OpenWeather/weatherApi';
+import { formatForecastData, formatWeatherData } from '../../../utils/format-utils';
 
 import Searchbar from './Searchbar';
 import WeatherStatus from './WeatherStatus';
 import Time from './Time';
 import Options from './Options';
+
+import { toast } from 'react-toastify';
+import httpStatus from 'http-status';
+import { cityBadRequestError } from '../../../errors/bad-request-errors';
+import { cityNotFoundError } from '../../../errors/not-found-errors';
+import { serverInternalError } from '../../../errors/server-internal-error';
 
 export default function Menu({ weatherData, setWeatherData, setForecastData }) {
   const [currentUnit, setCurrentUnit] = useState('celsius');
@@ -20,17 +27,29 @@ export default function Menu({ weatherData, setWeatherData, setForecastData }) {
 
     async function updateData() {
       setDisableFetch(true);
+      const { city } = searchForm;
       try {
-        const { city } = searchForm;
-        const currentWeatherData = await weatherApiService.getCurrentWeatherByCity(city, currentUnit);
+        let response = null;
+        response = await weatherApiService.getCurrentWeatherByCity(city, currentUnit);
+        const currentWeatherData = formatWeatherData(response.data, currentUnit);
         setWeatherData(currentWeatherData);
 
         const { coord } = weatherData;
-        const currentForecastData = await weatherApiService.getWeatherForecast(coord.lat, coord.lon, currentUnit);
+        response = await weatherApiService.getWeatherForecast(coord.lat, coord.lon, currentUnit);
+        const currentForecastData = formatForecastData(response.data);
         setForecastData(currentForecastData);
       } catch (error) {
-        // TO-DO: friendly error messages
-        console.log(error);
+        const { status } = error.response;
+
+        if (status === httpStatus.BAD_REQUEST) {
+          return toast(cityBadRequestError());
+        }
+
+        if (status === httpStatus.NOT_FOUND) {
+          return toast(cityNotFoundError(city));
+        }
+
+        return toast(serverInternalError());
       } finally {
         setDisableFetch(false);
       }
