@@ -1,17 +1,18 @@
 import { Container } from './style';
 
-export default function Options({ currentUnit, setCurrentUnit, setFetchData }) {
+export default function Options({ currentUnit, setCurrentUnit, disableFetch }) {
   function toggleUnit() {
-    const newUnit = currentUnit === 'celsius' ? 'fahrenheit' : 'celsius';
-    setCurrentUnit(newUnit);
-    setFetchData(new Date());
+    if (!disableFetch) {
+      const newUnit = currentUnit === 'celsius' ? 'fahrenheit' : 'celsius';
+      setCurrentUnit(newUnit);
+    }
   }
 
   return (
     <>
       <Container>
         <label className="switch">
-          <input type="checkbox" onChange={toggleUnit} />
+          <input type="checkbox" onChange={toggleUnit} disabled={disableFetch} />
           <span className="slider"></span>
         </label>
         <p>°F</p>

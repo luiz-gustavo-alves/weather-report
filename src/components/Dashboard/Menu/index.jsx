@@ -10,7 +10,6 @@ import Options from './Options';
 export default function Menu({ weatherData, setWeatherData }) {
   const [currentUnit, setCurrentUnit] = useState('celsius');
   const [searchForm, setSearchForm] = useState({ city: '' });
-  const [fetchData, setFetchData] = useState(false);
   const [disableFetch, setDisableFetch] = useState(false);
 
   const hasWeatherData = weatherData !== null;
@@ -33,10 +32,10 @@ export default function Menu({ weatherData, setWeatherData }) {
       }
     }
 
-    if (fetchData && !disableFetch) {
+    if (!disableFetch) {
       getCurrentWeatherData();
     }
-  }, [fetchData]);
+  }, [currentUnit]);
 
   return (
     <Wrapper>
@@ -49,7 +48,7 @@ export default function Menu({ weatherData, setWeatherData }) {
         />
         {hasWeatherData && <WeatherStatus weatherData={weatherData} />}
         <Time />
-        <Options currentUnit={currentUnit} setCurrentUnit={setCurrentUnit} setFetchData={setFetchData} />
+        <Options currentUnit={currentUnit} setCurrentUnit={setCurrentUnit} disableFetch={disableFetch} />
       </MainContent>
       <Footer>
         <h3>Todos os direitos reservados. 2023.</h3>

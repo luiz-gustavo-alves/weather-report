@@ -35,7 +35,13 @@ export default function Searchbar({ searchForm, setSearchForm, setWeatherData, u
         <button type="submit" disabled={disableForm}>
           <img src={searchIcon}></img>
         </button>
-        <input placeholder="Procure por uma cidade" name="city" value={searchForm.city} onChange={handleSearchForm} />
+        <input
+          autoFocus
+          placeholder="Procure por uma cidade"
+          name="city"
+          value={searchForm.city}
+          onChange={handleSearchForm}
+        />
       </SearchBar>
     </>
   );
