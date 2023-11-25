@@ -52,3 +52,11 @@ https://github.com/luiz-gustavo-alves/weather-report/assets/114351018/db091112-2
     </tr>
   </tbody>
 </table>
+<br>
+
+## Links 💻
+
+| Descrição | Link |
+| --- | --- |
+| Deploy | https://weather-report-luiz-gustavo.vercel.app/
+
