@@ -18,10 +18,7 @@ export const MainContent = styled.div`
   flex-direction: column;
   justify-content: space-evenly;
   height: 100%;
-
-  @media (max-width: 1214px) {
-    gap: 2em;
-  }
+  gap: 1.2em;
 `;
 
 export const Footer = styled.div`
