@@ -49,6 +49,17 @@ export function formatWeatherData(data, unit) {
   return weatherData;
 }
 
+function getDays(weatherData) {
+  const days = {};
+  for (let i = 0; i < weatherData.length; i++) {
+    const date = weatherData[i].date;
+    if (!days[date]) {
+      days[date] = date;
+    }
+  }
+  return days;
+}
+
 export function formatForecastData(data) {
   const weatherData = data.list.map((data) => {
     return {
@@ -57,18 +68,10 @@ export function formatForecastData(data) {
     };
   });
 
-  const days = {};
-  for (let i = 0; i < weatherData.length; i++) {
-    const date = weatherData[i].date;
-    if (!days[date]) {
-      days[date] = date;
-    }
-  }
-
   const sortedTemperatures = data.list.sort((a, b) => b.main.temp - a.main.temp);
   const forecastData = {
     weatherData,
-    days,
+    days: getDays(weatherData),
     maxTemp: formatFloatPrecision(sortedTemperatures[0].main.temp),
     minTemp: formatFloatPrecision(sortedTemperatures[weatherData.length - 1].main.temp),
   };
